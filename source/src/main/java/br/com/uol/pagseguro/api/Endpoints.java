@@ -118,6 +118,11 @@ public final class Endpoints {
   public static final String PRE_APPROVAL_REQUEST = "%s/v2/pre-approvals/request";
 
   /**
+   * Pre approval subscription
+   */
+  public static final String PRE_APPROVALS = "%s/v2/pre-approvals";
+
+  /**
    * Pre approval redirect url after registration
    */
   public static final String PRE_APPROVAL_REDIRECT_URL = "%s/v2/pre-approvals/request.html?code=%s";
