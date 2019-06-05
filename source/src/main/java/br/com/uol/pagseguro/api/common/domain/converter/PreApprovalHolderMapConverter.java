@@ -7,7 +7,6 @@ import br.com.uol.pagseguro.api.utils.RequestMap;
 public class PreApprovalHolderMapConverter extends AbstractMapConverter<PreApprovalHolder> {
 
     private final static CreditCardBillingAddressMapConverter ADDRESS_MC = new CreditCardBillingAddressMapConverter();
-    private final static AbstractHolderMapConverter
 
     @Override
     protected void convert(RequestMap requestMap, PreApprovalHolder holder) {
