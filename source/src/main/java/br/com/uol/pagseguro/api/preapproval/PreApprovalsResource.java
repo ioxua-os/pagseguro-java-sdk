@@ -59,9 +59,6 @@ public class PreApprovalsResource {
   private static final PreApprovalCancellationV2MapConverter PRE_APPROVAL_CANCELLATION_MC =
           new PreApprovalCancellationV2MapConverter();
 
-  private static final PreApprovalSubscriptionV2MapConverter PRE_APPROVAL_SUBSCRIPTION_MC =
-          new PreApprovalSubscriptionV2MapConverter();
-
   private final PagSeguro pagSeguro;
   private final HttpClient httpClient;
 
@@ -112,50 +109,6 @@ public class PreApprovalsResource {
     LOGGER.info("Parseamento finalizado");
     LOGGER.info("Registro pre approval finalizado");
     return registeredPreApproval;
-  }
-
-  /**
-   * Pre Approval Subscription
-   *
-   * @param preApprovalRegistrationBuilder Builder for Pre Approval Subscription
-   * @return Response of pre approval registration
-   * @see PreApprovalRegistration
-   * @see RegisteredPreApproval
-   */
-  public SubscribedPreApproval subscribe(Builder<PreApprovalSubscription> preApprovalRegistrationBuilder) {
-    return subscribe(preApprovalRegistrationBuilder.build());
-  }
-
-  /**
-   * Pre Approval Subscription
-   *
-   * @param preApprovalRegistration Pre Approval Subscription
-   * @return Response of pre approval subscription
-   * @see PreApprovalRegistration
-   * @see SubscribedPreApproval
-   */
-  public SubscribedPreApproval subscribe(PreApprovalSubscription preApprovalRegistration) {
-    LOGGER.info("Iniciando adesão pre approval");
-    LOGGER.info("Convertendo valores");
-    final RequestMap map = PRE_APPROVAL_SUBSCRIPTION_MC.convert(preApprovalRegistration);
-    LOGGER.info("Valores convertidos");
-    final HttpResponse response;
-    try {
-      LOGGER.debug(String.format("Parametros: %s", map));
-      response = httpClient.execute(HttpMethod.POST, String.format(Endpoints.PRE_APPROVALS,
-              pagSeguro.getHost()), null, map.toHttpRequestBody(CharSet.ENCODING_ISO));
-      LOGGER.debug(String.format("Resposta: %s", response.toString()));
-    } catch (IOException e) {
-      LOGGER.error("Erro ao executar registro pre approval");
-      throw new PagSeguroLibException(e);
-    }
-    LOGGER.info("Parseando XML de resposta");
-    // TODO: IMPLEMENT ENDPOINT RETURN
-    SubscribePreApprovalResponseXML subscribedPreApproval = response.parseXMLContent(pagSeguro,
-            SubscribePreApprovalResponseXML.class);
-    LOGGER.info("Parseamento finalizado");
-    LOGGER.info("Assinatura pre approval finalizado");
-    return subscribedPreApproval;
   }
 
   /**
@@ -212,6 +165,16 @@ public class PreApprovalsResource {
    */
   public PreApprovalSearchResource search() {
     return new PreApprovalSearchResource(pagSeguro, httpClient);
+  }
+
+  /**
+   * Pre Approval Subscription
+   *
+   * @return Factory to pre approval search
+   * @see PreApprovalSubscriptionResource
+   */
+  public PreApprovalSubscriptionResource subscription() {
+    return new PreApprovalSubscriptionResource(pagSeguro, httpClient);
   }
 
   /**
