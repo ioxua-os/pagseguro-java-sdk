@@ -5,18 +5,18 @@ import br.com.uol.pagseguro.api.utils.AbstractMapConverter;
 import br.com.uol.pagseguro.api.utils.RequestMap;
 
 /**
- * Converter for V2 Pre Approval Subscription
+ * Converter for Pre Approval Subscription
  *
  * @author Yehoshua Oliveira
  */
-public class PreApprovalSubscriptionV2MapConverter extends
+public class PreApprovalSubscriptionMapConverter extends
         AbstractMapConverter<PreApprovalSubscription> {
 
     private final static SenderV2MapConverter SENDER_MC = new SenderV2MapConverter();
     private final static PreApprovalPaymentMethodV2MapConverter PAYMENT_METHOD_MC =
             new PreApprovalPaymentMethodV2MapConverter();
 
-    PreApprovalSubscriptionV2MapConverter() {}
+    PreApprovalSubscriptionMapConverter() {}
 
     /**
      * Convert Interface for Pre Approval Subscription in Request Map
