@@ -9,7 +9,6 @@ import br.com.uol.pagseguro.api.http.HttpResponse;
 import br.com.uol.pagseguro.api.utils.Builder;
 import br.com.uol.pagseguro.api.utils.CharSet;
 import br.com.uol.pagseguro.api.utils.RequestJson;
-import br.com.uol.pagseguro.api.utils.RequestMap;
 import br.com.uol.pagseguro.api.utils.logging.Log;
 import br.com.uol.pagseguro.api.utils.logging.LoggerFactory;
 
@@ -69,13 +68,13 @@ public class PreApprovalSubscriptionResource {
     public SubscribedPreApproval register(PreApprovalSubscription preApprovalRegistration) {
         LOGGER.info("Iniciando adesão pre approval");
         LOGGER.info("Convertendo valores");
-        final RequestMap map = PRE_APPROVAL_SUBSCRIPTION_MC.convert(preApprovalRegistration);
+        final RequestJson jsonBody = PRE_APPROVAL_SUBSCRIPTION_MC.convert(preApprovalRegistration);
         LOGGER.info("Valores convertidos");
         final HttpResponse response;
         try {
-            LOGGER.debug(String.format("Parametros: %s", map));
-            response = httpClient.execute(HttpMethod.POST, String.format(Endpoints.PRE_APPROVALS,
-                    pagSeguro.getHost()), null, map.toHttpRequestBody(CharSet.ENCODING_ISO));
+            LOGGER.debug(String.format("Parametros: %s", jsonBody));
+            response = httpClient.executeJson(HttpMethod.POST, String.format(Endpoints.PRE_APPROVALS,
+                    pagSeguro.getHost()), defaultJsonHeaders, jsonBody.toHttpJsonRequestBody(CharSet.ENCODING_ISO));
             LOGGER.debug(String.format("Resposta: %s", response.toString()));
         } catch (IOException e) {
             LOGGER.error("Erro ao executar registro pre approval");

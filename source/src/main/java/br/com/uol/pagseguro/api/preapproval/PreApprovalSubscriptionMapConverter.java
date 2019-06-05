@@ -1,8 +1,9 @@
 package br.com.uol.pagseguro.api.preapproval;
 
-import br.com.uol.pagseguro.api.common.domain.converter.SenderV2MapConverter;
+import br.com.uol.pagseguro.api.common.domain.converter.SenderJsonConverter;
+import br.com.uol.pagseguro.api.utils.AbstractJsonConverter;
 import br.com.uol.pagseguro.api.utils.AbstractMapConverter;
-import br.com.uol.pagseguro.api.utils.RequestMap;
+import br.com.uol.pagseguro.api.utils.RequestJson;
 
 /**
  * Converter for Pre Approval Subscription
@@ -10,28 +11,28 @@ import br.com.uol.pagseguro.api.utils.RequestMap;
  * @author Yehoshua Oliveira
  */
 public class PreApprovalSubscriptionMapConverter extends
-        AbstractMapConverter<PreApprovalSubscription> {
+        AbstractJsonConverter<PreApprovalSubscription> {
 
-    private final static SenderV2MapConverter SENDER_MC = new SenderV2MapConverter();
-    private final static PreApprovalPaymentMethodV2MapConverter PAYMENT_METHOD_MC =
-            new PreApprovalPaymentMethodV2MapConverter();
+    private final static SenderJsonConverter SENDER_MC = new SenderJsonConverter();
+    private final static PreApprovalPaymentMethodJsonConverter PAYMENT_METHOD_MC =
+            new PreApprovalPaymentMethodJsonConverter();
 
     PreApprovalSubscriptionMapConverter() {}
 
     /**
      * Convert Interface for Pre Approval Subscription in Request Map
      *
-     * @param requestMap          Request Map used to pass params to api
+     * @param requestJson          Request Json used to pass params to api
      * @param preApprovalSubscription Interface for Pre Approval Subscription
-     * @see RequestMap
+     * @see RequestJson
      * @see PreApprovalSubscription
      * @see AbstractMapConverter#convert(Object)
      */
     @Override
-    protected void convert(RequestMap requestMap, PreApprovalSubscription preApprovalSubscription) {
-        requestMap.putString("reference", preApprovalSubscription.getReference());
-        requestMap.putString("redirectURL", preApprovalSubscription.getRedirectURL());
-        requestMap.putMap(SENDER_MC.convert(preApprovalSubscription.getSender()));
-        requestMap.putMap(PAYMENT_METHOD_MC.convert(preApprovalSubscription.getPreApprovalPaymentMethod()));
+    protected void convert(RequestJson requestJson, PreApprovalSubscription preApprovalSubscription) {
+        requestJson.putString("reference", preApprovalSubscription.getReference());
+        requestJson.putString("redirectURL", preApprovalSubscription.getRedirectURL());
+        requestJson.putJson(SENDER_MC.convert(preApprovalSubscription.getSender()), "sender");
+        requestJson.putJson(PAYMENT_METHOD_MC.convert(preApprovalSubscription.getPreApprovalPaymentMethod()), "paymentMethod");
     }
 }

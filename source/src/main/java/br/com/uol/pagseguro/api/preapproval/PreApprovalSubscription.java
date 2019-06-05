@@ -1,6 +1,6 @@
 package br.com.uol.pagseguro.api.preapproval;
 
-import br.com.uol.pagseguro.api.common.domain.PreApprovalPaymentMethodV2;
+import br.com.uol.pagseguro.api.common.domain.PreApprovalPaymentMethod;
 import br.com.uol.pagseguro.api.common.domain.Sender;
 
 /**
@@ -34,9 +34,9 @@ public interface PreApprovalSubscription {
 
     /**
      * Get pre approval credit card data
-     * @return PreApprovalCreditCardV2
-     * @see PreApprovalPaymentMethodV2
+     * @return PreApprovalCreditCard
+     * @see PreApprovalPaymentMethod
      */
-    PreApprovalPaymentMethodV2 getPreApprovalPaymentMethod();
+    PreApprovalPaymentMethod getPreApprovalPaymentMethod();
 
 }

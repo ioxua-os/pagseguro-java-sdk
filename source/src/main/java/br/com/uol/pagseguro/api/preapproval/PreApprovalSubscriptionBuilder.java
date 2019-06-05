@@ -1,6 +1,6 @@
 package br.com.uol.pagseguro.api.preapproval;
 
-import br.com.uol.pagseguro.api.common.domain.PreApprovalPaymentMethodV2;
+import br.com.uol.pagseguro.api.common.domain.PreApprovalPaymentMethod;
 import br.com.uol.pagseguro.api.common.domain.Sender;
 import br.com.uol.pagseguro.api.utils.Builder;
 
@@ -8,7 +8,7 @@ public class PreApprovalSubscriptionBuilder implements Builder<PreApprovalSubscr
     private String redirectURL;
     private String reference;
     private Sender sender;
-    private PreApprovalPaymentMethodV2 preApprovalPaymentMethod;
+    private PreApprovalPaymentMethod preApprovalPaymentMethod;
 
     /**
      * Set redirect url of pre approval subscription
@@ -64,7 +64,7 @@ public class PreApprovalSubscriptionBuilder implements Builder<PreApprovalSubscr
      * @return Builder for pre approval registration
      * @see PreApprovalSubscription#getSender()
      */
-    public PreApprovalSubscriptionBuilder withPaymentMethod(Builder<PreApprovalPaymentMethodV2> preApprovalPaymentMethodBuilder) {
+    public PreApprovalSubscriptionBuilder withPaymentMethod(Builder<PreApprovalPaymentMethod> preApprovalPaymentMethodBuilder) {
         return withPaymentMethod(preApprovalPaymentMethodBuilder.build());
     }
 
@@ -75,20 +75,20 @@ public class PreApprovalSubscriptionBuilder implements Builder<PreApprovalSubscr
      * @return Builder for pre approval registration
      * @see PreApprovalSubscription#getSender()
      */
-    public PreApprovalSubscriptionBuilder withPaymentMethod(PreApprovalPaymentMethodV2 preApprovalPaymentMethod) {
+    public PreApprovalSubscriptionBuilder withPaymentMethod(PreApprovalPaymentMethod preApprovalPaymentMethod) {
         this.preApprovalPaymentMethod = preApprovalPaymentMethod;
         return this;
     }
 
     @Override
     public PreApprovalSubscription build() {
-        return new SimplePreApprovalSubscriptionBuilder(this);
+        return new SimplePreApprovalSubscription(this);
     }
 
-    private static class SimplePreApprovalSubscriptionBuilder implements PreApprovalSubscription {
+    private static class SimplePreApprovalSubscription implements PreApprovalSubscription {
         private final PreApprovalSubscriptionBuilder preApprovalSubscriptionBuilder;
 
-        public SimplePreApprovalSubscriptionBuilder(PreApprovalSubscriptionBuilder preApprovalSubscriptionBuilder) {
+        public SimplePreApprovalSubscription(PreApprovalSubscriptionBuilder preApprovalSubscriptionBuilder) {
             this.preApprovalSubscriptionBuilder = preApprovalSubscriptionBuilder;
         }
 
@@ -108,7 +108,7 @@ public class PreApprovalSubscriptionBuilder implements Builder<PreApprovalSubscr
         }
 
         @Override
-        public PreApprovalPaymentMethodV2 getPreApprovalPaymentMethod() {
+        public PreApprovalPaymentMethod getPreApprovalPaymentMethod() {
             return this.preApprovalSubscriptionBuilder.preApprovalPaymentMethod;
         }
     }
