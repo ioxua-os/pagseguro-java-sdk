@@ -160,6 +160,11 @@ public final class Endpoints {
   /**
    * Pre approval payment method update
    */
+  public static final String PRE_APPROVAL_UPDATE_PAYMENT_METHOD = "%s/pre-approvals/%s/payment-method";
+
+  /**
+   * Pre approval payment method update
+   */
   public static final String PRE_APPROVAL_CANCEL_V1 = "%s/pre-approvals/%s/cancel";
 
   /**

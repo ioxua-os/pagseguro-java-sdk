@@ -8,11 +8,14 @@ import br.com.uol.pagseguro.api.http.HttpMethod;
 import br.com.uol.pagseguro.api.http.HttpResponse;
 import br.com.uol.pagseguro.api.utils.Builder;
 import br.com.uol.pagseguro.api.utils.CharSet;
+import br.com.uol.pagseguro.api.utils.RequestJson;
 import br.com.uol.pagseguro.api.utils.RequestMap;
 import br.com.uol.pagseguro.api.utils.logging.Log;
 import br.com.uol.pagseguro.api.utils.logging.LoggerFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Factory to pre approval subscription
@@ -23,15 +26,24 @@ public class PreApprovalSubscriptionResource {
 
     private static final Log LOGGER = LoggerFactory.getLogger(PreApprovalSubscriptionResource.class.getName());
 
-    private static final PreApprovalSubscriptionV2MapConverter PRE_APPROVAL_SUBSCRIPTION_MC =
-            new PreApprovalSubscriptionV2MapConverter();
+    private static final PreApprovalSubscriptionMapConverter PRE_APPROVAL_SUBSCRIPTION_MC =
+            new PreApprovalSubscriptionMapConverter();
+
+    private static final PreApprovalSubscriptionPaymentMethodUpdateJsonConverter PRE_APPROVAL_UPDATE_MC =
+            new PreApprovalSubscriptionPaymentMethodUpdateJsonConverter();
 
     private final PagSeguro pagSeguro;
     private final HttpClient httpClient;
+    private final Map<String, String> defaultJsonHeaders;
 
     public PreApprovalSubscriptionResource(PagSeguro pagSeguro, HttpClient httpClient) {
         this.pagSeguro = pagSeguro;
         this.httpClient = httpClient;
+
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("Content-Type", "application/json");
+        headers.put("Accept", "application/vnd.pagseguro.com.br.v3+xml;charset=ISO-8859-1");
+        this.defaultJsonHeaders = headers;
     }
 
     /**
@@ -104,5 +116,39 @@ public class PreApprovalSubscriptionResource {
         return cancelledSubscription;
     }
 
-    public void updatePaymentMethod() {}
+    /**
+     * Pre Approval Subscription payment method change
+     *
+     * Only the sender's hash is required
+     * Only the creditCard's token and holder are required
+     *
+     * @param preApprovalSubscriptionUpdate Pre Approval Subscription update
+     * @return Response of pre approval subscription update
+     * @see PreApprovalSubscriptionPaymentMethodUpdate
+     * @see UpdatedPreApprovalSubscription
+     */
+    public UpdatedPreApprovalSubscription updatePaymentMethod(String code, PreApprovalSubscriptionPaymentMethodUpdate preApprovalSubscriptionUpdate) {
+        LOGGER.info("Iniciando mudança no método de pagamento de pre approval");
+        LOGGER.info("Convertendo valores");
+
+        final RequestJson jsonBody = PRE_APPROVAL_UPDATE_MC.convert(preApprovalSubscriptionUpdate);
+
+        LOGGER.info("Valores convertidos");
+        final HttpResponse response;
+        try {
+            LOGGER.debug(String.format("Parametros: %s", jsonBody));
+            response = httpClient.executeJson(HttpMethod.POST, String.format(Endpoints.PRE_APPROVAL_UPDATE_PAYMENT_METHOD,
+                    pagSeguro.getHost(), code), defaultJsonHeaders, jsonBody.toHttpJsonRequestBody(CharSet.ENCODING_ISO));
+            LOGGER.debug(String.format("Resposta: %s", response.toString()));
+        } catch (IOException e) {
+            LOGGER.error("Erro ao executar registro pre approval");
+            throw new PagSeguroLibException(e);
+        }
+        LOGGER.info("Parseando XML de resposta");
+        UpdatedPreApprovalSubscriptionXML updatedPreApproval = response.parseXMLContent(pagSeguro,
+                UpdatedPreApprovalSubscriptionXML.class);
+        LOGGER.info("Parseamento finalizado");
+        LOGGER.info("Assinatura pre approval finalizado");
+        return updatedPreApproval;
+    }
 }
