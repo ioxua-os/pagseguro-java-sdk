@@ -104,7 +104,7 @@ public class PreApprovalSubscriptionResource {
                     pagSeguro.getHost(), code), null, null);
             LOGGER.debug(String.format("Resposta: %s", response.toString()));
         } catch (IOException e) {
-            LOGGER.error("Erro ao executar registro pre approval");
+            LOGGER.error("Erro ao executar cancelamento de adesão");
             throw new PagSeguroLibException(e);
         }
         LOGGER.info("Parseando XML de resposta");
@@ -168,7 +168,7 @@ public class PreApprovalSubscriptionResource {
                     pagSeguro.getHost(), code), defaultJsonHeaders, jsonBody.toHttpJsonRequestBody(CharSet.ENCODING_ISO));
             LOGGER.debug(String.format("Resposta: %s", response.toString()));
         } catch (IOException e) {
-            LOGGER.error("Erro ao executar registro pre approval");
+            LOGGER.error("Erro ao executar atualização de adesão");
             throw new PagSeguroLibException(e);
         }
         LOGGER.info("Parseando XML de resposta");
