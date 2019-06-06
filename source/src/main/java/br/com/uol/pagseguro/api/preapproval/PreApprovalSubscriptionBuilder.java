@@ -5,20 +5,20 @@ import br.com.uol.pagseguro.api.common.domain.Sender;
 import br.com.uol.pagseguro.api.utils.Builder;
 
 public class PreApprovalSubscriptionBuilder implements Builder<PreApprovalSubscription> {
-    private String redirectURL;
+    private String plan;
     private String reference;
     private Sender sender;
     private PreApprovalPaymentMethod preApprovalPaymentMethod;
 
     /**
-     * Set redirect url of pre approval subscription
+     * Code of the pre approval plan, returned by /pre-approvals/request.
      *
-     * @param redirectURL Redirect Url
+     * @param plan Plan Code
      * @return Builder for pre approval subscription
-     * @see PreApprovalSubscription#getRedirectURL()
+     * @see PreApprovalSubscription#getPlan()
      */
-    public PreApprovalSubscriptionBuilder withRedirectURL(String redirectURL) {
-        this.redirectURL = redirectURL;
+    public PreApprovalSubscriptionBuilder withPlan(String plan) {
+        this.plan = plan;
         return this;
     }
 
@@ -93,8 +93,8 @@ public class PreApprovalSubscriptionBuilder implements Builder<PreApprovalSubscr
         }
 
         @Override
-        public String getRedirectURL() {
-            return this.preApprovalSubscriptionBuilder.redirectURL;
+        public String getPlan() {
+            return this.preApprovalSubscriptionBuilder.plan;
         }
 
         @Override

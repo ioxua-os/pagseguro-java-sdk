@@ -11,11 +11,11 @@ import br.com.uol.pagseguro.api.common.domain.Sender;
 public interface PreApprovalSubscription {
 
     /**
-     * URL where the buyer is redirected after completion of the signature stream.
+     * Code of the pre approval plan, returned by /pre-approvals/request.
      *
-     * @return Redirect Url
+     * @return Plan Code
      */
-    String getRedirectURL();
+    String getPlan();
 
     /**
      * Code / identifier to reference the signature on your system.

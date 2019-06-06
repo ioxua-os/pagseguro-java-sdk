@@ -31,7 +31,7 @@ public class PreApprovalSubscriptionMapConverter extends
     @Override
     protected void convert(RequestJson requestJson, PreApprovalSubscription preApprovalSubscription) {
         requestJson.putString("reference", preApprovalSubscription.getReference());
-        requestJson.putString("redirectURL", preApprovalSubscription.getRedirectURL());
+        requestJson.putString("plan", preApprovalSubscription.getPlan());
         requestJson.putJson(SENDER_MC.convert(preApprovalSubscription.getSender()), "sender");
         requestJson.putJson(PAYMENT_METHOD_MC.convert(preApprovalSubscription.getPreApprovalPaymentMethod()), "paymentMethod");
     }
