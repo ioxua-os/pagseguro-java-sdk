@@ -101,7 +101,7 @@ public class PreApprovalSubscriptionResource {
         final HttpResponse response;
         try {
             response = httpClient.execute(HttpMethod.PUT, String.format(Endpoints.PRE_APPROVAL_CANCEL_V1,
-                    pagSeguro.getHost(), code), null, null);
+                    pagSeguro.getHost(), code), defaultJsonHeaders, null);
             LOGGER.debug(String.format("Resposta: %s", response.toString()));
         } catch (IOException e) {
             LOGGER.error("Erro ao executar cancelamento de adesão");
