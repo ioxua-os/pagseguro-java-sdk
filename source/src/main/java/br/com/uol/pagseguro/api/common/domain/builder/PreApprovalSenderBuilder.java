@@ -18,7 +18,7 @@ public class PreApprovalSenderBuilder implements Builder<PreApprovalSender> {
      * @return Builder for pre approval sender
      * @see PreApprovalSender#getHash()
      */
-    public PreApprovalSenderBuilder withCharge(String hash) {
+    public PreApprovalSenderBuilder withHash(String hash) {
         this.hash = hash;
         return this;
     }
