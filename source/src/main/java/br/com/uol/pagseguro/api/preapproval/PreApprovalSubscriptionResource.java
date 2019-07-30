@@ -127,7 +127,7 @@ public class PreApprovalSubscriptionResource {
         LOGGER.info("Iniciando pesquisa de adesão");
         final HttpResponse response;
         try {
-            response = httpClient.execute(HttpMethod.GET, String.format(Endpoints.PRE_APPROVAL_SEARCH_BY_CODE_V1,
+            response = httpClient.execute(HttpMethod.GET, String.format(Endpoints.PRE_APPROVAL_SUBSCRIPTION_SEARCH_BY_CODE,
                     pagSeguro.getHost(), code), defaultJsonHeaders, null);
             LOGGER.debug(String.format("Resposta: %s", response.toString()));
         } catch (IOException e) {

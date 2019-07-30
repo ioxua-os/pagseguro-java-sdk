@@ -140,12 +140,12 @@ public final class Endpoints {
   /**
    * Search pre approval by code
    */
-  public static final String PRE_APPROVAL_SEARCH_BY_CODE = "%s/v2/pre-approvals/%s";
+  public static final String PRE_APPROVAL_SEARCH_BY_CODE = "%s/pre-approvals/%s";
 
   /**
    * Search pre approval subscription by code
    */
-  public static final String PRE_APPROVAL_SEARCH_BY_CODE_V1 = "%s/pre-approvals/%s";
+  public static final String PRE_APPROVAL_SUBSCRIPTION_SEARCH_BY_CODE = "%s/pre-approvals/%s";
 
   /**
    * Search pre approvals by interval

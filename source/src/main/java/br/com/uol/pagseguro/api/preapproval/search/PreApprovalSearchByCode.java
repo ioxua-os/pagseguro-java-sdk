@@ -22,6 +22,7 @@
 package br.com.uol.pagseguro.api.preapproval.search;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import br.com.uol.pagseguro.api.Endpoints;
@@ -48,6 +49,7 @@ class PreApprovalSearchByCode implements PagSeguroCommand<PreApprovalDetail> {
       LoggerFactory.getLogger(PreApprovalSearchByCode.class.getName());
 
   private final String code;
+  private final Map<String, String> defaultJsonHeaders;
 
   /**
    * Constructor
@@ -56,6 +58,11 @@ class PreApprovalSearchByCode implements PagSeguroCommand<PreApprovalDetail> {
    */
   PreApprovalSearchByCode(String code) {
     this.code = code;
+
+    Map<String, String> headers = new HashMap<String, String>();
+    headers.put("Content-Type", "application/json");
+    headers.put("Accept", "application/vnd.pagseguro.com.br.v3+xml;charset=ISO-8859-1");
+    this.defaultJsonHeaders = headers;
   }
 
   /**
@@ -75,7 +82,7 @@ class PreApprovalSearchByCode implements PagSeguroCommand<PreApprovalDetail> {
     try {
       LOGGER.debug(String.format("Parametros: preApprovalCode:%s", code));
       response = httpClient.execute(HttpMethod.GET,
-          String.format(Endpoints.PRE_APPROVAL_SEARCH_BY_CODE, pagseguro.getHost(), code), null,
+          String.format(Endpoints.PRE_APPROVAL_SEARCH_BY_CODE, pagseguro.getHost(), code), defaultJsonHeaders,
           null);
       LOGGER.debug(String.format("Resposta: %s", response.toString()));
     } catch (IOException e) {
