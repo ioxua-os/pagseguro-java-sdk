@@ -28,18 +28,59 @@ A biblioteca PagSeguro em Java é um conjunto de classes de domínio que facilit
 
 Este repositório contém 2 projetos: o código-fonte e um projeto com exemplos de uso das funcionalidades do SDK.
 
- - Para utilizar o SDK como dependência do seu projeto siga as orientações da seção [Utilização via Grade](#utilização-via-gradle)
+ - Para utilizar o SDK como dependência do seu projeto siga as orientações da seção [Utilização](#utilização)
  - Para modificar o código-fonte deste SDK siga as orientações da seção [Instalação Manual](#instalação-manual)
  - Para apenas executar os exemplos de uso deste SDK, abra o projeto do diretório *public/example-api* como um projeto do Gradle
 
 
-## Utilização via Gradle
+## Utilização
 
- Adicionar no arquivo *build.gradle* do seu projeto, na seção de dependências, o seguinte trecho de código:
+Por hora, este projeto passou a ser disponibilizado apenas pelo GitHub Packages. É necessário criar um 
+[token pessoal de acesso](https://docs.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-apache-maven-for-use-with-github-packages#authenticating-to-github-packages)
+para baixar o projeto.
 
- ```groovy
- compile (group: 'br.com.uol.pagseguro', name: 'pagseguro-api', version: 'X.Y.Z')
- ```
+Feito isso, o trecho para depender deste projeto é, para Maven:
+
+```xml
+<project>
+  <!-- ... -->
+  <repositories>
+    <repository>
+      <id>github</id>
+      <name>GitHub NewGo Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/newgotecnologia/pagseguro-java-sdk</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      </repository>
+  </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>br.com.skywalker.pagseguro</groupId>
+      <artifactId>pagseguro-api</artifactId>
+      <version>X.Y.Z</version>
+    </dependency>
+  </dependencies>
+</project>
+```
+
+E para Gradle:
+
+```groovy
+ compile (group: 'br.com.skywalker.pagseguro', name: 'pagseguro-api', version: 'X.Y.Z')
+```
+
+> **Nota** Ajuda para disponibilizar o projeto no [Maven Central](https://maven.apache.org/repository/guide-central-repository-upload.html)
+> é bem vinda, visto que não tenho tempo para o fazer :(
+
+
+> **Versão anterior da documentação**
+>
+> Adicionar no arquivo *build.gradle* do seu projeto, na seção de dependências, o seguinte trecho de código:
+>
+> ```groovy
+> compile (group: 'br.com.uol.pagseguro', name: 'pagseguro-api', version: 'X.Y.Z')
+> ```
 
 
 ## Instalação Manual
