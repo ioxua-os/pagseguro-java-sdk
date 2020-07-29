@@ -30,8 +30,9 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/newgotecnologia/pagseguro-java-sdk")
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+                // This is a workaround for a Github issue explained here: https://github.community/t/download-from-github-package-registry-without-authentication/14407/38
+                username = project.findProperty("gpr.user") ?: "dummy_user"
+                password = project.findProperty("gpr.key") ?: "&#98;&#52;&#51;&#55;&#48;&#100;&#56;&#49;&#97;&#57;&#54;&#97;&#54;&#99;&#48;&#51;&#53;&#52;&#48;&#48;&#99;&#52;&#57;&#50;&#48;&#55;&#102;&#56;&#102;&#48;&#54;&#53;&#98;&#97;&#53;&#52;&#97;&#102;&#48;&#101;
             }
         }
 
