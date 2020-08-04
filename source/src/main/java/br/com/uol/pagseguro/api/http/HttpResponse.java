@@ -23,14 +23,11 @@ package br.com.uol.pagseguro.api.http;
 import javax.xml.bind.JAXBException;
 
 import br.com.uol.pagseguro.api.PagSeguro;
-import br.com.uol.pagseguro.api.exception.PagSeguroBadRequestException;
-import br.com.uol.pagseguro.api.exception.PagSeguroForbiddenException;
-import br.com.uol.pagseguro.api.exception.PagSeguroInternalServerException;
-import br.com.uol.pagseguro.api.exception.PagSeguroLibException;
-import br.com.uol.pagseguro.api.exception.PagSeguroServiceUnavailableException;
-import br.com.uol.pagseguro.api.exception.PagSeguroUnauthorizedException;
-import br.com.uol.pagseguro.api.exception.ServerErrorsXML;
+import br.com.uol.pagseguro.api.exception.*;
 import br.com.uol.pagseguro.api.utils.XMLUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
  * Response of http request
@@ -39,9 +36,16 @@ import br.com.uol.pagseguro.api.utils.XMLUtils;
  */
 public class HttpResponse {
 
+  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
   private final String responseAsString;
 
   private final int status;
+
+  static {
+    // In order to serialize/deserialize java.time.*
+    OBJECT_MAPPER.registerModule(new JavaTimeModule());
+  }
 
   /**
    * Constructor
@@ -82,6 +86,26 @@ public class HttpResponse {
   }
 
   /**
+   * Parse JSON content
+   *
+   * @param targetClazz Class to be converted
+   * @param <T>         Class converted
+   * @return Response converted
+   */
+  public <T> T parseJSONContent(Class<T> targetClazz) {
+    if (getStatusFamily() == HttpStatusFamily.SUCCESSFUL) {
+      try {
+        return OBJECT_MAPPER.readValue(asString(), targetClazz);
+      } catch (JsonProcessingException e) {
+        throw new PagSeguroLibException(e);
+      }
+    }
+
+    throwJSONErrorFromContent();
+    return null;
+  }
+
+  /**
    * Parse xml content
    *
    * @param pagSeguro   Pagseguro instance
@@ -90,36 +114,16 @@ public class HttpResponse {
    * @return Response converted
    */
   public <T> T parseXMLContent(PagSeguro pagSeguro, Class<T> targetClazz) {
-    switch (getStatusFamily()) {
-      case SUCCESSFUL:
-        try {
-          return XMLUtils.unmarshal(pagSeguro, targetClazz, asString());
-        } catch (JAXBException e) {
-          throw new PagSeguroLibException(e);
-        }
-      case CLIENT_ERROR:
-        switch (getStatus()) {
-          case 400:
-            try {
-              throw new PagSeguroBadRequestException(this, XMLUtils.unmarshal(pagSeguro,
-                      ServerErrorsXML.class, asString()));
-            } catch (JAXBException e) {
-              throw new PagSeguroLibException(e);
-            }
-          case 401:
-            throw new PagSeguroUnauthorizedException(this);
-          case 403:
-            throw new PagSeguroForbiddenException(this);
-        }
-      case SERVER_ERROR:
-        switch (getStatus()) {
-          case 503:
-            throw new PagSeguroServiceUnavailableException(this);
-        }
-      default:
-        throw new PagSeguroInternalServerException(this);
+    if (getStatusFamily() == HttpStatusFamily.SUCCESSFUL) {
+      try {
+        return XMLUtils.unmarshal(pagSeguro, targetClazz, asString());
+      } catch (JAXBException e) {
+        throw new PagSeguroLibException(e);
+      }
     }
 
+    throwXMLErrorFromContent(pagSeguro);
+    return null;
   }
 
   /**
@@ -130,32 +134,56 @@ public class HttpResponse {
    * @return Response converted
    */
   public <T> T parseXMLContentNoBody(PagSeguro pagSeguro) {
+    if (getStatusFamily() == HttpStatusFamily.SUCCESSFUL) {
+      return null;
+    }
+
+    throwXMLErrorFromContent(pagSeguro);
+    return null;
+  }
+
+  private void throwXMLErrorFromContent(PagSeguro pagSeguro) {
+    if (HttpStatusFamily.CLIENT_ERROR == getStatusFamily() && 400 == getStatus()) {
+      try {
+        throw new PagSeguroBadRequestException(this, XMLUtils.unmarshal(pagSeguro,
+                ServerErrorsXML.class, asString()));
+      } catch (JAXBException e) {
+        throw new PagSeguroLibException(e);
+      }
+    }
+
+    throwGenericHttpStatusExceptions();
+  }
+
+  private void throwJSONErrorFromContent() {
+    if (HttpStatusFamily.CLIENT_ERROR == getStatusFamily() && 400 == getStatus()) {
+      try {
+        throw new PagSeguroBadRequestException(this,
+                OBJECT_MAPPER.readValue(asString(), ServerErrorsJSON.class));
+      } catch (JsonProcessingException e) {
+        throw new PagSeguroLibException(e);
+      }
+    }
+
+    throwGenericHttpStatusExceptions();
+  }
+
+  private void throwGenericHttpStatusExceptions() {
     switch (getStatusFamily()) {
-      case SUCCESSFUL:
-        return null;
       case CLIENT_ERROR:
         switch (getStatus()) {
-          case 400:
-            try {
-              throw new PagSeguroBadRequestException(this, XMLUtils.unmarshal(pagSeguro,
-                      ServerErrorsXML.class, asString()));
-            } catch (JAXBException e) {
-              throw new PagSeguroLibException(e);
-            }
           case 401:
             throw new PagSeguroUnauthorizedException(this);
           case 403:
             throw new PagSeguroForbiddenException(this);
         }
       case SERVER_ERROR:
-        switch (getStatus()) {
-          case 503:
-            throw new PagSeguroServiceUnavailableException(this);
+        if (getStatus() == 503) {
+          throw new PagSeguroServiceUnavailableException(this);
         }
       default:
         throw new PagSeguroInternalServerException(this);
     }
-
   }
 
   @Override
