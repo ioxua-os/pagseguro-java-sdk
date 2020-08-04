@@ -44,10 +44,18 @@ public class BoletoRegistrarionJsonConverter extends AbstractJsonConverter<Bolet
         protected void convert(RequestJson requestJson, BoletoCustomer customer) {
             requestJson.putString("name", customer.getName());
             requestJson.putString("email", customer.getEmail());
-            requestJson.putJson(BOLETO_CUSTOMER_DOCUMENT_JSON_CONVERTER.convert(
-                    Collections.singletonList(customer.getDocument())), "document");
             requestJson.putJson(BOLETO_CUSTOMER_PHONE_JSON_CONVERTER.convert(
                     customer.getPhone()), "phone");
+
+            if (null != customer.getDocument()) {
+                StringBuilder documentSB = new StringBuilder();
+                documentSB.append("\"type\":\"");
+                documentSB.append(customer.getDocument().getType().name());
+                documentSB.append("\",\"value\":\"");
+                documentSB.append(customer.getDocument().getValue());
+                documentSB.append("\",");
+                requestJson.putJson(documentSB, "document");
+            }
         }
     }
 

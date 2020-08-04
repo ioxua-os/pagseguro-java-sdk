@@ -53,7 +53,7 @@ public class BoletoCustomerBuilder implements Builder<BoletoCustomer> {
 
     @Override
     public BoletoCustomer build() {
-        return null;
+        return new SimpleBoletoCustomer(this);
     }
 
     // **************************************************************************
