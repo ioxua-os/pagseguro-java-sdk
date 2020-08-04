@@ -4,7 +4,7 @@ version '4.1.1'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 sourceCompatibility = 1.8
@@ -34,44 +34,20 @@ dependencies {
     compileOnly(group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.11.2')
 }
 
-uploadArchives {
+publishing {
     repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/newgotecnologia/pagseguro-java-sdk")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
             }
+        }
 
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            pom.project {
-                name project.name
-                packaging 'jar'
-
-                description 'A collection of domain classes to ease integrations with PagSeguro Api'
-                url 'https://github.com/pagseguro/pagseguro-java-sdk/'
-
-                scm {
-                    url 'https://github.com/pagseguro/pagseguro-java-sdk/'
-                }
-
-                licenses {
-                    license {
-                        name 'The Apache License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id 'pagseguro'
-                        name 'PagSeguro'
-                        email 'desenvolvedores@pagseguro.com.br'
-                    }
-                }
+        publications {
+            gpr(MavenPublication) {
+                from(components.java)
             }
         }
     }
@@ -90,9 +66,3 @@ task sourcesJar(type: Jar) {
 artifacts {
     archives javadocJar, sourcesJar
 }
-
-// Uncomment this block to sign the files when building to upload to Maven
-//signing {
-//    sign configurations.archives
-//}
-
