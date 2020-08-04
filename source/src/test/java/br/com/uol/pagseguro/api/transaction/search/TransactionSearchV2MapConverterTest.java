@@ -1,5 +1,7 @@
 package br.com.uol.pagseguro.api.transaction.search;
 
+import br.com.uol.pagseguro.api.common.domain.builder.DateRangeBuilder;
+import br.com.uol.pagseguro.api.utils.RequestMap;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -7,10 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
-import br.com.uol.pagseguro.api.common.domain.builder.DateRangeBuilder;
-import br.com.uol.pagseguro.api.utils.RequestMap;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author PagSeguro Internet Ltda.

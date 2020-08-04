@@ -1,18 +1,17 @@
 package br.com.uol.pagseguro.api.transaction.register;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-
 import br.com.uol.pagseguro.api.common.domain.Parameter;
 import br.com.uol.pagseguro.api.common.domain.PaymentItem;
 import br.com.uol.pagseguro.api.common.domain.Sender;
 import br.com.uol.pagseguro.api.common.domain.Shipping;
 import br.com.uol.pagseguro.api.common.domain.enums.Currency;
 import br.com.uol.pagseguro.api.utils.RequestMap;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 

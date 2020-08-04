@@ -1,5 +1,8 @@
 package br.com.uol.pagseguro.api.common.domain.converter;
 
+import br.com.uol.pagseguro.api.common.domain.PaymentItem;
+import br.com.uol.pagseguro.api.common.domain.builder.PaymentItemBuilder;
+import br.com.uol.pagseguro.api.utils.RequestMap;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -7,10 +10,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import br.com.uol.pagseguro.api.common.domain.PaymentItem;
-import br.com.uol.pagseguro.api.common.domain.builder.PaymentItemBuilder;
-import br.com.uol.pagseguro.api.utils.RequestMap;
 
 import static org.junit.Assert.assertEquals;
 

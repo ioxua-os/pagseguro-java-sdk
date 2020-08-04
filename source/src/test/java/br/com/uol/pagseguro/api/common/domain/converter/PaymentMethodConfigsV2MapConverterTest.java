@@ -1,5 +1,12 @@
 package br.com.uol.pagseguro.api.common.domain.converter;
 
+import br.com.uol.pagseguro.api.common.domain.PaymentMethodConfig;
+import br.com.uol.pagseguro.api.common.domain.builder.ConfigBuilder;
+import br.com.uol.pagseguro.api.common.domain.builder.PaymentMethodBuilder;
+import br.com.uol.pagseguro.api.common.domain.builder.PaymentMethodConfigBuilder;
+import br.com.uol.pagseguro.api.common.domain.enums.ConfigKey;
+import br.com.uol.pagseguro.api.common.domain.enums.PaymentMethodGroup;
+import br.com.uol.pagseguro.api.utils.RequestMap;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,15 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import br.com.uol.pagseguro.api.common.domain.PaymentMethodConfig;
-import br.com.uol.pagseguro.api.common.domain.builder.ConfigBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.PaymentMethodBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.PaymentMethodConfigBuilder;
-import br.com.uol.pagseguro.api.common.domain.enums.ConfigKey;
-import br.com.uol.pagseguro.api.common.domain.enums.PaymentMethodGroup;
-import br.com.uol.pagseguro.api.utils.RequestMap;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author PagSeguro Internet Ltda.

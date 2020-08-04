@@ -1,5 +1,8 @@
 package br.com.uol.pagseguro.api.http;
 
+import br.com.uol.pagseguro.api.credential.Credential;
+import br.com.uol.pagseguro.api.utils.logging.Log;
+import br.com.uol.pagseguro.api.utils.logging.LoggerFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,13 +14,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.UUID;
 
-import br.com.uol.pagseguro.api.credential.Credential;
-import br.com.uol.pagseguro.api.utils.logging.Log;
-import br.com.uol.pagseguro.api.utils.logging.LoggerFactory;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 

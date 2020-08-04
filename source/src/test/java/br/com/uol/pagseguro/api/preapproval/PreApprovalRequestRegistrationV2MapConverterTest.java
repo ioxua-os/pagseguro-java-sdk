@@ -1,15 +1,14 @@
 package br.com.uol.pagseguro.api.preapproval;
 
+import br.com.uol.pagseguro.api.common.domain.enums.Currency;
+import br.com.uol.pagseguro.api.utils.RequestMap;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-import br.com.uol.pagseguro.api.common.domain.enums.Currency;
-import br.com.uol.pagseguro.api.utils.RequestMap;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author PagSeguro Internet Ltda.

@@ -1,16 +1,15 @@
 package br.com.uol.pagseguro.api.common.domain.converter;
 
+import br.com.uol.pagseguro.api.common.domain.Bank;
+import br.com.uol.pagseguro.api.common.domain.BankName;
+import br.com.uol.pagseguro.api.common.domain.builder.BankBuilder;
+import br.com.uol.pagseguro.api.utils.RequestMap;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
 
-import br.com.uol.pagseguro.api.common.domain.Bank;
-import br.com.uol.pagseguro.api.common.domain.BankName;
-import br.com.uol.pagseguro.api.common.domain.builder.BankBuilder;
-import br.com.uol.pagseguro.api.utils.RequestMap;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author PagSeguro Internet Ltda.

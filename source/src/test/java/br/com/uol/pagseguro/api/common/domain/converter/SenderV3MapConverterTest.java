@@ -1,17 +1,16 @@
 package br.com.uol.pagseguro.api.common.domain.converter;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.HashMap;
-
 import br.com.uol.pagseguro.api.common.domain.Sender;
 import br.com.uol.pagseguro.api.common.domain.builder.AddressBuilder;
 import br.com.uol.pagseguro.api.common.domain.builder.PhoneBuilder;
 import br.com.uol.pagseguro.api.common.domain.builder.SenderBuilder;
 import br.com.uol.pagseguro.api.utils.RequestMap;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.HashMap;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author PagSeguro Internet Ltda.

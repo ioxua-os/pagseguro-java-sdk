@@ -1,14 +1,13 @@
 package br.com.uol.pagseguro.api.application.authorization;
 
+import br.com.uol.pagseguro.api.common.domain.PermissionCode;
+import br.com.uol.pagseguro.api.utils.RequestMap;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import br.com.uol.pagseguro.api.common.domain.PermissionCode;
-import br.com.uol.pagseguro.api.utils.RequestMap;
 
 import static org.junit.Assert.assertEquals;
 

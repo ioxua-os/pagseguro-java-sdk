@@ -1,12 +1,5 @@
 package br.com.uol.pagseguro.api.application.authorization;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.io.IOException;
-
 import br.com.uol.pagseguro.api.Resource4Test;
 import br.com.uol.pagseguro.api.common.domain.PermissionCode;
 import br.com.uol.pagseguro.api.exception.PagSeguroBadRequestException;
@@ -16,11 +9,16 @@ import br.com.uol.pagseguro.api.exception.ServerErrors;
 import br.com.uol.pagseguro.api.http.HttpMethod;
 import br.com.uol.pagseguro.api.http.HttpRequestBody;
 import br.com.uol.pagseguro.api.http.HttpResponse;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.io.IOException;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -54,7 +52,7 @@ public class AuthorizationsResourceTest extends Resource4Test {
                               "<date>2016-11-09T00:00:00.000-03:00</date>" +
                               "</authorizationRequest>";
     HttpResponse response = new HttpResponse(200, responseAsString);
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
         any(HttpRequestBody.class))).thenReturn(response);
 
     RegisteredAuthorization registeredAuthorization = authorizationsResource
@@ -78,7 +76,7 @@ public class AuthorizationsResourceTest extends Resource4Test {
                                 "</error>" +
                                 "</errors>";
       HttpResponse response = new HttpResponse(400, responseAsString);
-      when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+      when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
           any(HttpRequestBody.class))).thenReturn(response);
 
       authorizationsResource.register(authorizationRegistration);
@@ -93,7 +91,7 @@ public class AuthorizationsResourceTest extends Resource4Test {
 
   @Test(expected = PagSeguroLibException.class)
   public void shouldThrowsErrorLibOnRegister() throws Exception {
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
         any(HttpRequestBody.class))).thenThrow(new IOException());
     authorizationsResource.register(authorizationRegistration);
   }
