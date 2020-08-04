@@ -1,5 +1,8 @@
 package br.com.uol.pagseguro.api.http;
 
+import br.com.uol.pagseguro.api.BaseTestClassWithPowerMockFix;
+import br.com.uol.pagseguro.api.PagSeguro;
+import br.com.uol.pagseguro.api.exception.*;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,13 +15,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
-import br.com.uol.pagseguro.api.PagSeguro;
-import br.com.uol.pagseguro.api.exception.PagSeguroBadRequestException;
-import br.com.uol.pagseguro.api.exception.PagSeguroForbiddenException;
-import br.com.uol.pagseguro.api.exception.PagSeguroInternalServerException;
-import br.com.uol.pagseguro.api.exception.PagSeguroServiceUnavailableException;
-import br.com.uol.pagseguro.api.exception.PagSeguroUnauthorizedException;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -26,7 +22,7 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({})
-public class HttpResponseTest {
+public class HttpResponseTest extends BaseTestClassWithPowerMockFix {
 
   @Mock
   private PagSeguro pagSeguro;

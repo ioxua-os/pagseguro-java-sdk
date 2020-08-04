@@ -1,25 +1,8 @@
 package br.com.uol.pagseguro.api.preapproval;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import br.com.uol.pagseguro.api.Resource4Test;
 import br.com.uol.pagseguro.api.common.domain.ShippingType;
-import br.com.uol.pagseguro.api.common.domain.builder.AddressBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.DateRangeBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.ParameterBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.PaymentItemBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.PhoneBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.PreApprovalRequestBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.SenderBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.ShippingBuilder;
+import br.com.uol.pagseguro.api.common.domain.builder.*;
 import br.com.uol.pagseguro.api.common.domain.enums.Currency;
 import br.com.uol.pagseguro.api.exception.PagSeguroBadRequestException;
 import br.com.uol.pagseguro.api.exception.PagSeguroLibException;
@@ -31,11 +14,19 @@ import br.com.uol.pagseguro.api.http.HttpResponse;
 import br.com.uol.pagseguro.api.preapproval.cancel.CancelledPreApproval;
 import br.com.uol.pagseguro.api.preapproval.cancel.PreApprovalCancellation;
 import br.com.uol.pagseguro.api.preapproval.cancel.PreApprovalCancellationBuilder;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Matchers.anyString;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -152,7 +143,7 @@ public class PreApprovalsResourceTestRequest extends Resource4Test {
                               "<date>2016-11-09T00:00:00.000-03:00</date>" +
                               "</preApprovalRequest>";
     HttpResponse response = new HttpResponse(200, responseAsString);
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
         any(HttpRequestBody.class))).thenReturn(response);
 
     RegisteredPreApproval registeredPreApproval = preApprovalsResource
@@ -175,7 +166,7 @@ public class PreApprovalsResourceTestRequest extends Resource4Test {
                                 "</error>" +
                                 "</errors>";
       HttpResponse response = new HttpResponse(400, responseAsString);
-      when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+      when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
           any(HttpRequestBody.class))).thenReturn(response);
 
       preApprovalsResource.register(preApprovalRegistration);
@@ -190,7 +181,7 @@ public class PreApprovalsResourceTestRequest extends Resource4Test {
 
   @Test(expected = PagSeguroLibException.class)
   public void shouldThrowsErrorLibOnRegister() throws Exception {
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
         any(HttpRequestBody.class))).thenThrow(new IOException());
     preApprovalsResource.register(preApprovalRegistration);
   }
@@ -203,7 +194,7 @@ public class PreApprovalsResourceTestRequest extends Resource4Test {
                               "<date>2016-11-09T00:00:00.000-02:00</date>" +
                               "</result>";
     HttpResponse response = new HttpResponse(200, responseAsString);
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
         any(HttpRequestBody.class))).thenReturn(response);
 
     ChargedPreApproval chargedPreApproval = preApprovalsResource.charge(preApprovalCharging);
@@ -223,7 +214,7 @@ public class PreApprovalsResourceTestRequest extends Resource4Test {
                                 "</error>" +
                                 "</errors>";
       HttpResponse response = new HttpResponse(400, responseAsString);
-      when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+      when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
           any(HttpRequestBody.class))).thenReturn(response);
 
       preApprovalsResource.charge(preApprovalCharging);
@@ -238,7 +229,7 @@ public class PreApprovalsResourceTestRequest extends Resource4Test {
 
   @Test(expected = PagSeguroLibException.class)
   public void shouldThrowsErrorLibOnCharge() throws Exception {
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
         any(HttpRequestBody.class))).thenThrow(new IOException());
     preApprovalsResource.charge(preApprovalCharging);
   }
@@ -251,14 +242,13 @@ public class PreApprovalsResourceTestRequest extends Resource4Test {
                               "<status>OK</status>" +
                               "</result>";
     HttpResponse response = new HttpResponse(200, responseAsString);
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
-        any(HttpRequestBody.class))).thenReturn(response);
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
+        nullable(HttpRequestBody.class))).thenReturn(response);
 
     CancelledPreApproval cancelledPreApproval = preApprovalsResource
         .cancel(preApprovalCancellation);
 
     assertEquals("OK", cancelledPreApproval.getTransactionStatus());
-
   }
 
   @Test
@@ -272,7 +262,7 @@ public class PreApprovalsResourceTestRequest extends Resource4Test {
                                 "</error>" +
                                 "</errors>";
       HttpResponse response = new HttpResponse(400, responseAsString);
-      when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+      when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
           any(HttpRequestBody.class))).thenReturn(response);
 
       preApprovalsResource.cancel(preApprovalCancellation);
@@ -287,8 +277,8 @@ public class PreApprovalsResourceTestRequest extends Resource4Test {
 
   @Test(expected = PagSeguroLibException.class)
   public void shouldThrowsErrorLibOnCancel() throws Exception {
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
-        any(HttpRequestBody.class))).thenThrow(new IOException());
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
+        nullable(HttpRequestBody.class))).thenThrow(new IOException());
     preApprovalsResource.cancel(preApprovalCancellation);
   }
 

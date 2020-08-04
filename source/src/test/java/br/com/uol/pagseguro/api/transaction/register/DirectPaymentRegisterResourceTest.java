@@ -1,33 +1,11 @@
 package br.com.uol.pagseguro.api.transaction.register;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import br.com.uol.pagseguro.api.Resource4Test;
 import br.com.uol.pagseguro.api.common.domain.BankName;
 import br.com.uol.pagseguro.api.common.domain.CreditCard;
 import br.com.uol.pagseguro.api.common.domain.PaymentItem;
 import br.com.uol.pagseguro.api.common.domain.ShippingType;
-import br.com.uol.pagseguro.api.common.domain.builder.AddressBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.BankBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.CreditCardBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.DocumentBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.HolderBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.InstallmentBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.ParameterBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.PaymentItemBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.PhoneBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.SenderBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.ShippingBuilder;
+import br.com.uol.pagseguro.api.common.domain.builder.*;
 import br.com.uol.pagseguro.api.common.domain.enums.Currency;
 import br.com.uol.pagseguro.api.common.domain.enums.DocumentType;
 import br.com.uol.pagseguro.api.common.domain.enums.State;
@@ -39,11 +17,21 @@ import br.com.uol.pagseguro.api.http.HttpMethod;
 import br.com.uol.pagseguro.api.http.HttpRequestBody;
 import br.com.uol.pagseguro.api.http.HttpResponse;
 import br.com.uol.pagseguro.api.transaction.search.TransactionDetail;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -163,7 +151,7 @@ public class DirectPaymentRegisterResourceTest extends Resource4Test {
   @Test
   public void shouldBankSlipRegister() throws IOException, ParseException {
     HttpResponse response = new HttpResponse(200, responseAsString);
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
         any(HttpRequestBody.class))).thenReturn(response);
 
     TransactionDetail transactionDetail = directPaymentRegisterResource.withBankSlip();
@@ -173,7 +161,7 @@ public class DirectPaymentRegisterResourceTest extends Resource4Test {
   @Test
   public void shouldCreditCardRegister() throws IOException, ParseException {
     HttpResponse response = new HttpResponse(200, responseAsString);
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
         any(HttpRequestBody.class))).thenReturn(response);
 
     CreditCard creditCard = getCreditCard();
@@ -185,7 +173,7 @@ public class DirectPaymentRegisterResourceTest extends Resource4Test {
   @Test
   public void shouldOnlineDebitRegister() throws IOException, ParseException {
     HttpResponse response = new HttpResponse(200, responseAsString);
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
         any(HttpRequestBody.class))).thenReturn(response);
 
     TransactionDetail transactionDetail = directPaymentRegisterResource.withOnlineDebit(
@@ -205,7 +193,7 @@ public class DirectPaymentRegisterResourceTest extends Resource4Test {
           "</error>" +
           "</errors>";
       HttpResponse response = new HttpResponse(400, responseAsString);
-      when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+      when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
           any(HttpRequestBody.class))).thenReturn(response);
 
       directPaymentRegisterResource.withBankSlip();
@@ -221,7 +209,7 @@ public class DirectPaymentRegisterResourceTest extends Resource4Test {
 
   @Test(expected = PagSeguroLibException.class)
   public void shouldThrowsErrorLibOnRegister() throws Exception {
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
         any(HttpRequestBody.class))).thenThrow(new IOException());
     directPaymentRegisterResource.withBankSlip();
   }

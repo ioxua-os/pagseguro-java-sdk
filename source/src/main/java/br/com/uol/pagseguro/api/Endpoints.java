@@ -288,4 +288,14 @@ public final class Endpoints {
    */
   public static final String INSTALLMENT_SEARCH = "%s/v2/installments?%s";
 
+  /**
+   * BOLETOS
+   */
+
+  /**
+   * Register boletos
+   */
+//  public static final String REGISTER_BOLETO = "%s/recurring-payment/boletos?%s";
+  public static final String REGISTER_BOLETO = "%s/recurring-payment/boletos?";
+
 }

@@ -1,22 +1,17 @@
 package br.com.uol.pagseguro.api.environment;
 
+import br.com.uol.pagseguro.api.Case4Test;
+import br.com.uol.pagseguro.api.PagSeguroEnv;
+import br.com.uol.pagseguro.api.exception.PagSeguroLibException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
-import org.mockito.Mock;
-import org.mockito.Spy;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import br.com.uol.pagseguro.api.Case4Test;
-import br.com.uol.pagseguro.api.PagSeguroEnv;
-import br.com.uol.pagseguro.api.exception.PagSeguroLibException;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 

@@ -1,14 +1,5 @@
 package br.com.uol.pagseguro.api.notification;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InOrder;
-import org.mockito.Mock;
-import org.powermock.modules.junit4.PowerMockRunner;
-
-import javax.servlet.http.HttpServletRequest;
-
 import br.com.uol.pagseguro.api.PagSeguro;
 import br.com.uol.pagseguro.api.Resource4Test;
 import br.com.uol.pagseguro.api.application.authorization.AuthorizationsResource;
@@ -21,13 +12,18 @@ import br.com.uol.pagseguro.api.preapproval.search.PreApprovalSearchResource;
 import br.com.uol.pagseguro.api.transaction.TransactionsResource;
 import br.com.uol.pagseguro.api.transaction.search.TransactionDetail;
 import br.com.uol.pagseguro.api.transaction.search.TransactionSearchResource;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InOrder;
+import org.mockito.Mock;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
+import javax.servlet.http.HttpServletRequest;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 /**
  * @author PagSeguro Internet Ltda.

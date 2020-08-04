@@ -1,14 +1,5 @@
 package br.com.uol.pagseguro.api.preapproval.search;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import br.com.uol.pagseguro.api.Resource4Test;
 import br.com.uol.pagseguro.api.common.domain.PreApprovalStatus;
 import br.com.uol.pagseguro.api.exception.PagSeguroBadRequestException;
@@ -18,11 +9,18 @@ import br.com.uol.pagseguro.api.exception.ServerErrors;
 import br.com.uol.pagseguro.api.http.HttpMethod;
 import br.com.uol.pagseguro.api.http.HttpRequestBody;
 import br.com.uol.pagseguro.api.http.HttpResponse;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Matchers.anyString;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -70,8 +68,8 @@ public class PreApprovalRequestSearchByCodeTest extends Resource4Test {
                               "</sender>" +
                               "</preApproval>";
     HttpResponse response = new HttpResponse(200, responseAsString);
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
-        any(HttpRequestBody.class))).thenReturn(response);
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
+        nullable(HttpRequestBody.class))).thenReturn(response);
 
     PreApprovalDetail preApprovalDetail = preApprovalSearchByCode.execute(pagSeguro, httpClient);
 
@@ -110,7 +108,7 @@ public class PreApprovalRequestSearchByCodeTest extends Resource4Test {
                                 "</error>" +
                                 "</errors>";
       HttpResponse response = new HttpResponse(400, responseAsString);
-      when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
+      when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
           any(HttpRequestBody.class))).thenReturn(response);
 
       preApprovalSearchByCode.execute(pagSeguro, httpClient);
@@ -125,8 +123,8 @@ public class PreApprovalRequestSearchByCodeTest extends Resource4Test {
 
   @Test(expected = PagSeguroLibException.class)
   public void shouldThrowsErrorLib() throws Exception {
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
-        any(HttpRequestBody.class))).thenThrow(new IOException());
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
+        nullable(HttpRequestBody.class))).thenThrow(new IOException());
     preApprovalSearchByCode.execute(pagSeguro, httpClient);
   }
 }

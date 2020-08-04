@@ -1,5 +1,7 @@
 package br.com.uol.pagseguro.api.http;
 
+import br.com.uol.pagseguro.api.utils.logging.Log;
+import br.com.uol.pagseguro.api.utils.logging.LoggerFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,12 +21,9 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.uol.pagseguro.api.utils.logging.Log;
-import br.com.uol.pagseguro.api.utils.logging.LoggerFactory;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.times;
 import static org.powermock.api.mockito.PowerMockito.when;

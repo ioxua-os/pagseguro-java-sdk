@@ -1,20 +1,15 @@
 package br.com.uol.pagseguro.api.common.domain.converter;
 
+import br.com.uol.pagseguro.api.common.domain.CreditCard;
+import br.com.uol.pagseguro.api.common.domain.builder.*;
+import br.com.uol.pagseguro.api.common.domain.enums.DocumentType;
+import br.com.uol.pagseguro.api.utils.RequestMap;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-
-import br.com.uol.pagseguro.api.common.domain.CreditCard;
-import br.com.uol.pagseguro.api.common.domain.builder.AddressBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.CreditCardBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.DocumentBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.HolderBuilder;
-import br.com.uol.pagseguro.api.common.domain.builder.PhoneBuilder;
-import br.com.uol.pagseguro.api.common.domain.enums.DocumentType;
-import br.com.uol.pagseguro.api.utils.RequestMap;
 
 import static org.junit.Assert.assertEquals;
 
