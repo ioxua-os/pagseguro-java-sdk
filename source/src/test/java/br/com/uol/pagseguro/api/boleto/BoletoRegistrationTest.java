@@ -1,6 +1,10 @@
 package br.com.uol.pagseguro.api.boleto;
 
+import br.com.uol.pagseguro.api.PagSeguroSandboxEnv;
 import br.com.uol.pagseguro.api.Resource4Test;
+import br.com.uol.pagseguro.api.common.domain.builder.DocumentBuilder;
+import br.com.uol.pagseguro.api.common.domain.builder.PhoneBuilder;
+import br.com.uol.pagseguro.api.common.domain.enums.DocumentType;
 import br.com.uol.pagseguro.api.http.HttpJsonRequestBody;
 import br.com.uol.pagseguro.api.http.HttpMethod;
 import br.com.uol.pagseguro.api.http.HttpResponse;
@@ -9,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -33,7 +38,27 @@ public class BoletoRegistrationTest extends Resource4Test {
     public void setUp() throws Exception {
         boletoResource = new BoletoResource(pagSeguro, httpClient);
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        Date tomorrow = calendar.getTime();
         boletoRegistration = new BoletoRegistrationBuilder()
+                .withAmount(BigDecimal.TEN)
+                .withDescription("this is a description")
+                .withNumberOfPayments(1)
+                .withPeriodicity(BoletoRegistrationPeriodicity.MONTHLY)
+                .withFirstDueDate(tomorrow)
+                .withCustomer(new BoletoCustomerBuilder()
+                        .withEmail("prettynormalemail@gmail.com")
+                        .withName("Pretty Normal Name")
+                        .withPhone(new PhoneBuilder()
+                                .withAreaCode("11")
+                                .withNumber("959128954")
+                        .build())
+                        .withDocument(new DocumentBuilder()
+                                .withType(DocumentType.CPF)
+                                .withValue("26057705084")
+                        .build())
+                .build())
         .build();
 
         dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -73,5 +98,27 @@ public class BoletoRegistrationTest extends Resource4Test {
         assertEquals(boleto.getBarcode(), actualBarcode);
         assertEquals(boleto.getPaymentLink(), actualPaymentLink);
         assertEquals(boleto.getDueDate(), actualDueDate);
+    }
+
+    @Test
+    public void shouldRegister() {
+        if (pagSeguro instanceof PagSeguroSandboxEnv) {
+            logger.warn("Boletos only work on PRODUCTION env. Ignoring BoletoRegistrationTest#shouldRegister");
+            return;
+        }
+
+        RegisteredBoletos registeredBoletos = boletoResource.register(boletoRegistration);
+        assertNotNull(registeredBoletos);
+        assertNotNull(registeredBoletos.getBoletos());
+
+        assertEquals(registeredBoletos.getBoletos().size(),
+                boletoRegistration.getNumberOfPayments().intValue());
+
+        RegisteredBoleto boleto = registeredBoletos.getBoletos().get(0);
+        assertNotNull(boleto);
+        assertNotNull(boleto.getDueDate());
+        assertNotNull(boleto.getPaymentLink());
+        assertNotNull(boleto.getBarcode());
+        assertNotNull(boleto.getCode());
     }
 }
