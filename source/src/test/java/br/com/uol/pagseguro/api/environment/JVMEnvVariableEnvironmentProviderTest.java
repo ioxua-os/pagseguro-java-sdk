@@ -1,13 +1,12 @@
 package br.com.uol.pagseguro.api.environment;
 
+import br.com.uol.pagseguro.api.Case4Test;
+import br.com.uol.pagseguro.api.PagSeguroEnv;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import br.com.uol.pagseguro.api.Case4Test;
-import br.com.uol.pagseguro.api.PagSeguroEnv;
 
 import static org.junit.Assert.assertEquals;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;

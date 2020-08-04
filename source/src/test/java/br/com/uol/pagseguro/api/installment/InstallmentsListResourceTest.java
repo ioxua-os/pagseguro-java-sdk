@@ -1,15 +1,5 @@
 package br.com.uol.pagseguro.api.installment;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Iterator;
-
 import br.com.uol.pagseguro.api.Resource4Test;
 import br.com.uol.pagseguro.api.common.domain.DataList;
 import br.com.uol.pagseguro.api.exception.PagSeguroBadRequestException;
@@ -19,11 +9,19 @@ import br.com.uol.pagseguro.api.exception.ServerErrors;
 import br.com.uol.pagseguro.api.http.HttpMethod;
 import br.com.uol.pagseguro.api.http.HttpRequestBody;
 import br.com.uol.pagseguro.api.http.HttpResponse;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Iterator;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -74,8 +72,8 @@ public class InstallmentsListResourceTest extends Resource4Test{
                               "</installment>" +
                               "</installments>";
     HttpResponse response = new HttpResponse(200, responseAsString);
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
-        any(HttpRequestBody.class))).thenReturn(response);
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
+        nullable(HttpRequestBody.class))).thenReturn(response);
 
     DataList<? extends InstallmentDetail> data = installmentsListResource.list(installmentRequest);
 
@@ -116,8 +114,8 @@ public class InstallmentsListResourceTest extends Resource4Test{
                                 "</error>" +
                                 "</errors>";
       HttpResponse response = new HttpResponse(400, responseAsString);
-      when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
-          any(HttpRequestBody.class))).thenReturn(response);
+      when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
+          nullable(HttpRequestBody.class))).thenReturn(response);
 
       installmentsListResource.list(installmentRequest);
     } catch (PagSeguroBadRequestException e) {
@@ -131,8 +129,8 @@ public class InstallmentsListResourceTest extends Resource4Test{
 
   @Test(expected = PagSeguroLibException.class)
   public void shouldThrowsErrorLibOnList() throws Exception {
-    when(httpClient.execute(any(HttpMethod.class), anyString(), anyMap(),
-        any(HttpRequestBody.class))).thenThrow(new IOException());
+    when(httpClient.execute(any(HttpMethod.class), anyString(), nullable(Map.class),
+        nullable(HttpRequestBody.class))).thenThrow(new IOException());
     installmentsListResource.list(installmentRequest);
   }
 

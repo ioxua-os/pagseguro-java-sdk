@@ -1,15 +1,14 @@
 package br.com.uol.pagseguro.api.common.domain.converter;
 
+import br.com.uol.pagseguro.api.common.domain.Parameter;
+import br.com.uol.pagseguro.api.common.domain.builder.ParameterBuilder;
+import br.com.uol.pagseguro.api.utils.RequestMap;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import br.com.uol.pagseguro.api.common.domain.Parameter;
-import br.com.uol.pagseguro.api.common.domain.builder.ParameterBuilder;
-import br.com.uol.pagseguro.api.utils.RequestMap;
 
 import static org.junit.Assert.assertEquals;
 

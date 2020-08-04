@@ -1,18 +1,17 @@
 package br.com.uol.pagseguro.api.common.domain.converter;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.HashMap;
-
 import br.com.uol.pagseguro.api.common.domain.AcceptedPaymentMethods;
 import br.com.uol.pagseguro.api.common.domain.builder.AcceptedPaymentMethodsBuilder;
 import br.com.uol.pagseguro.api.common.domain.builder.PaymentMethodBuilder;
 import br.com.uol.pagseguro.api.common.domain.enums.PaymentMethodGroup;
 import br.com.uol.pagseguro.api.common.domain.enums.PaymentMethodName;
 import br.com.uol.pagseguro.api.utils.RequestMap;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.HashMap;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author PagSeguro Internet Ltda.

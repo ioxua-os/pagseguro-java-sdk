@@ -21,6 +21,7 @@
 package br.com.uol.pagseguro.api;
 
 import br.com.uol.pagseguro.api.application.authorization.AuthorizationsResource;
+import br.com.uol.pagseguro.api.boleto.BoletoResource;
 import br.com.uol.pagseguro.api.checkout.CheckoutsResource;
 import br.com.uol.pagseguro.api.credential.Credential;
 import br.com.uol.pagseguro.api.credential.DefaultCredentialProviderChain;
@@ -126,6 +127,15 @@ public abstract class PagSeguro {
    */
   public NotificationsResource notifications() {
     return new NotificationsResource(this, httpClient);
+  }
+
+  /**
+   * Get factory to boletos
+   *
+   * @return Factory to boletos
+   */
+  public BoletoResource boletos() {
+    return new BoletoResource(this, httpClient);
   }
 
   /**

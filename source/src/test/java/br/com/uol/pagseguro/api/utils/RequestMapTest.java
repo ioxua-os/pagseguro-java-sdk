@@ -1,11 +1,10 @@
 package br.com.uol.pagseguro.api.utils;
 
+import br.com.uol.pagseguro.api.http.HttpRequestBody;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.uol.pagseguro.api.http.HttpRequestBody;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author PagSeguro Internet Ltda.
